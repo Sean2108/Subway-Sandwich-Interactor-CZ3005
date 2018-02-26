@@ -22,10 +22,11 @@ function getChosenValues() {
 }
 
 function addQueryOptionsHtml(json, currentChoice) {
-    $("#title").text("Subway Selector: Select " + currentChoice.charAt(0).toUpperCase() + currentChoice.slice(1));
+    var inputType = currentChoice == 'meals' || currentChoice == 'breads' || currentChoice == 'meats' ? "radio" : "checkbox";
+    var displayedChoice = inputType == "radio" ? currentChoice.slice(0, -1) : currentChoice;
+    $("#title").text("Please select your " + displayedChoice + ".");
     for (var i = 0; i < json['choices'].length; i++) {
         var option = json['choices'][i];
-        var inputType = currentChoice == 'meals' || currentChoice == 'breads' || currentChoice == 'meats' ? "radio" : "checkbox";
         if (i == 0 && inputType == "radio") var new_option = '<input type="' + inputType + '" name="choice" value="' + option + '" checked> ' + capitalisePhrase(option) + '<br>';
         else var new_option = '<input type="' + inputType + '" name="choice" value="' + option + '"> ' + capitalisePhrase(option) + '<br>';
         $("#options").append($(new_option));
@@ -34,7 +35,7 @@ function addQueryOptionsHtml(json, currentChoice) {
 }
 
 function addConfirmDisplayHtml(json) {
-    $("#title").text("Subway Selector: Confirm Order");
+    $("#title").text("Please confirm your order.");
     $("#orderConfirm").append("You ordered:<br><br>");
     for (var key in json['choices']) { 
         $("#orderConfirm").append("<b>" + capitaliseWord(key) + "</b>:<br>" + capitaliseArray(json['choices'][key]) + "<br>");
